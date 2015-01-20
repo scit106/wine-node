@@ -1,0 +1,4 @@
+*.DS_Store
+wrk/
+node_modules/
+npm-debug.log
