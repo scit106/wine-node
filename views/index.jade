@@ -1,5 +1,10 @@
-html
-	head
-		title!= title
-	body
-		h1!= message
+extends ./main.jade
+block content
+	h1 Welcome! Select a way to get started.
+	ul
+		li
+			a(href='/submit') Enter a Wine
+		li
+			a(href='/taste') Taste a Wine
+		li
+			a(href='/vote') Vote on a Wine

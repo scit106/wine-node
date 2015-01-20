@@ -4,7 +4,6 @@ path = require 'path'
 mongo = require 'mongodb'
 mongoose = require 'mongoose'
 jade = require 'jade'
-# bodyParser = express.bodyParser
 
 app = express()
 
@@ -15,9 +14,13 @@ app.set 'view engine', 'jade'
 http.createServer(app).listen app.get('port'), ->
   console.log 'Express server listening on port ' + app.get('port')
 
-# app.use express.bodyParser.json()
+app.use express.static 'static'
 
 app.get '/', (req, res) ->
-	res.render 'index', 
-		title: 'Hi'
-		message: 'Hello There'
+	res.render 'index'
+
+app.get '/submit', (req, res) ->
+	res.render 'submit'
+
+app.post '/search', (req, res) ->
+	console.log req
