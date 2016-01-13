@@ -1,5 +1,11 @@
 html
 	head
 		title!= title
-	body
-		h1!= message
+		link(href='https://fonts.googleapis.com/css?family=Dancing+Script:400,700|Lato:400,700,300' rel='stylesheet' type='text/css')
+		link(rel="stylesheet" type="text/css" href="/styles.css")
+	body.barrels
+		.container.padding-large.content-center
+			h1.fancy-font.text-center.padding-bottom-large What would you like to do?
+			a.text-center.block.large-button.sans-font.margin-medium.padding-large Vote
+			a.text-center.block.large-button.sans-font.margin-medium.padding-large Submit
+			a.text-center.block.large-button.sans-font.margin-medium.padding-large View Results

@@ -1,0 +1,65 @@
+html
+	padding 0
+	margin 0
+
+body
+	padding 0
+	margin 0
+
+.fancy-font
+	font-family 'Dancing Script', cursive
+
+.sans-font
+	font-family 'Lato', sans-serif
+
+.bold
+	font-weight 700
+
+.light
+	font-weight 300
+
+.text-center
+	text-align center
+
+.content-center
+	margin auto
+
+.inline-block
+	display inline-block
+
+.block
+	display block
+
+
+spacings = (small 1) (medium 5) (large 20)
+directions = (top right bottom left)
+
+for spacing in spacings
+	.margin-{spacing[0]}
+		margin spacing[1]
+	.padding-{spacing[0]}
+		padding spacing[1]
+	for direction in directions
+		.margin-{direction}-{spacing[0]}
+			margin-{direction} spacing[1]
+		.padding-{direction}-{spacing[0]}
+			padding-{direction} spacing[1]
+
+.container
+	background-color rgba(250, 150, 250, 0.65)
+	height 100%
+
+.large-button
+	width auto
+	background none
+	font-size 24px
+	border 1px solid rgb(250, 200, 250)
+	border-radius 5px
+	background-color rgba(250, 200, 250, 0.5)
+	&:hover
+		background-color rgba(250, 250, 250, 0.5)
+
+.barrels
+	background-image url('/images/barrels.jpg')
+	background-size cover
+
