@@ -1,0 +1,13 @@
+extends ./head.jade
+block content
+  body.barrels
+    .container.padding-large.content-center
+      h1.fancy-font.padding-bottom-large.text-center Enter your wine
+      p.sans-font.text-center.block.padding-left-large.padding-right-large Enter the name of a wine you brought in the box below and hit search. We'll use fancy wine searching technology to automatically fill out information about your wine. Hopefully, anyway. If not, you'll be able to enter it on the next screen.
+      form.text-center(id='search-form')
+        label.sans-font.padding-bottom-large.padding-top-large.relative.block Enter the name of the wine you brought
+          input.margin-top-medium.large-input.sans-font.padding-large(type='text' name='wineName' placeholder='Wine Name')
+        button.large-button.padding-large.margin-top-large.block.content-center(type='submit' id='search-submit') Search
+      .text-center
+        i.fa.fa-spinner.fa-spin.fa-3x.hidden
+      .results

@@ -1,0 +1,21 @@
+extends ./head.jade
+block content
+	body.barrels
+		.container.padding-large.content-center
+			h1.fancy-font.padding-bottom-large.text-center Cast Your Vote
+			form.text-center(action='/vote' method='post' id='vote-form')
+				label.sans-font.block.padding-bottom-large.relative.block Select which type of wine you are voting on
+					span.block.small.text-center.padding-bottom-medium You may vote for one of each type
+					.custom-select-wrapper.margin-top-medium
+						select.sans-font.content-center(name='color')
+							option.padding-large(disabled selected) Select Wine Color
+							option.padding-large(value=1) Red
+							option.padding-large(value=2) White
+							option.padding-large(value=3) Sparkling
+					if errors.color
+						span.error Please select a color
+				label.sans-font.padding-bottom-large.padding-top-large.relative.block Enter the number of the wine you would like to vote for
+					input.margin-top-medium.large-input.sans-font.padding-large(type='text' name='tastingNumber' value=tastingNumber placeholder='Enter a number')
+					if errors.tastingNumber
+						span.error Please enter a number
+				button.large-button.padding-large.margin-top-large.block.content-center(type='submit' id='submit-vote') Vote

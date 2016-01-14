@@ -1,0 +1,27 @@
+//- extends ./head.jade
+//- block content
+//-   body.barrels
+//-     .container.padding-large.content-center
+h1.fancy-font.padding-bottom-large.text-center Select Your Wine
+form.text-center.sans-font(id='manual-entry')
+  p.text-center Don't see your wine? Enter it here
+.results
+  each wine in wines
+    a.wine-row.margin-bottom-medium(href='/new?snoothId=' + wine.code)
+      .flex-child.flex-third.padding-left-medium
+        p 
+          span.bold Name: 
+          |  #{wine.name}
+        p 
+          span.bold Winery: 
+          |  #{wine.winery}
+      .flex-child.flex-third
+        p 
+          span.bold Varietal: 
+          | #{wine.varietal}
+        p 
+          span.bold Type: 
+          | #{wine.type}
+      .flex-child
+        img(src=wine.image)
+
