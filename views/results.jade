@@ -3,9 +3,9 @@
 //-   body.barrels
 //-     .container.padding-large.content-center
 h1.fancy-font.padding-bottom-large.text-center Select Your Wine
-form.text-center.sans-font(id='manual-entry')
-  p.text-center Don't see your wine? Enter it here
 .results
+  a.wine-row.margin-bottom-medium.padding-large.text-center(href='/new?name=' + wineName)
+    | Don't see your wine? Click here to enter it manually
   each wine in wines
     a.wine-row.margin-bottom-medium(href='/new?snoothId=' + wine.code)
       .flex-child.flex-third.padding-left-medium

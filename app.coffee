@@ -65,27 +65,66 @@ app.get '/search', (req, res) ->
 
 app.post '/search', (req, res) ->
 	snoothKey = "5na931xwbey79ngkupjjobm2akv7da7caa7b5rhl1asux25c" #DONT PUT THIS IN GITHUB. ENV VARS YO.
-	# reqURL = "http://api.snooth.com/wines?akey=" + snoothKey + "&amp;q=" + req.body.wineName + "&amp;n=20&amp;a=0"
+	wineName = req.body.wineName
 	reqOptions =
 		url: "http://api.snooth.com/wines"
 		qs:
 			akey: snoothKey
-			q: req.body.wineName
+			q: wineName
 			n: 20
 			a: 0
 	request.get reqOptions, (error, response, body) ->
 		if error
-			console.log 'error requesting api'
+			console.log 'error requesting snooth API'
 			console.log error
 			res.send 500
 		else if response.statusCode isnt 200
 			res.send 500
 		else if body
 			bodyAsJSON = JSON.parse body
-			console.log bodyAsJSON.wines
 			res.render 'results',
+				wineName: wineName
 				wines: bodyAsJSON.wines
-	# console.log req.body
 
-
-
+app.get '/new', (req, res) ->
+	if req.query.snoothId
+		snoothKey = "5na931xwbey79ngkupjjobm2akv7da7caa7b5rhl1asux25c"
+		reqOptions =
+			url: "http://api.snooth.com/wine"
+			qs:
+				akey: snoothKey
+				id: req.query.snoothId
+				i: 1
+				food: 1
+		request.get reqOptions, (error, response, body) ->
+			if error
+				console.log 'error requesting snooth API'
+				console.log error
+				res.send 500
+			else if response.statusCode isnt 200
+				console.log 'response contained error'
+				res.send 500
+			else if body
+				bodyAsJSON = JSON.parse body
+				wine = bodyAsJSON.wines[0]
+				# Transform wine props
+				color =
+					switch wine.type
+						when 'Red Wine' then 1
+						when 'White Wine' then 2
+						when 'Sparkling Wine' then 3
+						else null
+				res.render 'new',
+					name: wine.name
+					winery: wine.winery
+					varietal: wine.varietal
+					color: wine.color
+					isSnooth: true
+					image: wine.image
+					wm_notes: wine.wm_notes
+					winery_tasting_notes: wine.winery_tasting_notes
+					price: wine.price
+					snoothId: wine.code
+	else
+		res.render 'new',
+			name: req.query.name

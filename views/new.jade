@@ -1,0 +1,46 @@
+extends ./head.jade
+block content
+	body.barrels
+		.container.padding-large.content-center 
+			h1.fancy-font.padding-bottom-medium.text-center Enter Your Wine
+			p.text-center.padding-bottom-large Please complete the form fields below. For the "tasting number" field, please find a numbered bad, place your wine in that bag, and enter that number below.
+			form.text-center(action='/new' method='post' id='new-form')
+				label.sans-font.block.padding-bottom-large.relative.block Select which type of wine you are entering*
+					.custom-select-wrapper.margin-top-medium
+						select.sans-font.content-center(name='color')
+							option.padding-large(disabled selected) Select Wine Color
+							option.padding-large(value=1) Red
+							option.padding-large(value=2) White
+							option.padding-large(value=3) Sparkling
+					//- if errors.color
+					//-   span.error Please select a color
+				label.sans-font.padding-bottom-large.padding-top-large.relative.block Enter the number of the bag you put your wine in*
+					input.margin-top-medium.large-input.sans-font.padding-large(type='text' name='tastingNumber' value=tastingNumber placeholder='eg. 42')
+					//- if errors.tastingNumber
+					//-   span.error Please enter a number
+				label.padding-bottom-large.padding-top-large.relative.block Your Name*
+					input.margin-top-medium.large-input.padding-large(type='text' name='personName' placeholder='eg. Captain Awesome')
+				label.padding-bottom-large.padding-top-large.relative.block Wine Name*
+					span.small.block Sometimes its just the winery and the varietal. Sometimes it has a name. Use your judgement. 
+					input.margin-top-medium.large-input.padding-large(type='text' name='name' placeholder='eg. Yellowtail Shiraz or Blanc de Blancs' value=name)
+				label.padding-bottom-large.padding-top-large.relative.block winery
+					span.small.block Who makes it
+					input.margin-top-medium.large-input.padding-large(type='text' name='winery' placeholder='eg. Yellowtail or Gloria Ferrer' value=winery)
+				label.padding-bottom-large.padding-top-large.relative.block Varietal
+					span.small.block What kind of grapes was it made from
+					input.margin-top-medium.large-input.padding-large(type='text' name='varietal' placeholder='eg. Chardonnay or Pinot Noir' value=varietal)
+				label.padding-bottom-large.padding-top-large.relative.block Price
+					span.small.block optional
+					input.margin-top-medium.large-input.padding-large(type='text' name='price' placeholder='eg. $500' value=price)
+				button.large-button.padding-large.margin-top-large.block.content-center(type='submit' id='save-wine') Save
+			if isSnooth
+				.additional-info
+					h2.fancy-font.text-center Additional Info
+					img.content-center.block(src=image)
+					p If you found your wine through the search, here's some additional points pulled from the high tech wine database you can use to sound like you know what you're talking about.
+					p
+						span.bold Winemaker's Notes:
+						| #{wm_notes}
+					p
+						span.bold Tasting Notes:
+						| #{winery_tasting_notes}
