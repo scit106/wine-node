@@ -8,7 +8,9 @@ stylus = require 'stylus'
 bodyParser = require 'body-parser'
 _ = require 'underscore'
 request = require 'request'
+pg = require 'pg'
 util = require './util'
+
 
 app = express()
 
@@ -16,8 +18,19 @@ app.set 'port', process.env.PORT or 3000
 app.set 'views', './views'
 app.set 'view engine', 'jade'
 
+pgClient = {}
+
 http.createServer(app).listen app.get('port'), ->
 	console.log 'Express server listening on port ' + app.get('port')
+	# todo - allow this to work in multiple envs.
+	pg.connect 'postgres://postgres@localhost/node_test_db', (error, client, done) ->
+		if error
+			console.log error
+		else
+			console.log 'Connected to database'
+			util.setUpDB(client)
+			pgClient = client
+
 
 app.use bodyParser.json()
 app.use bodyParser.urlencoded({extended: true})
@@ -45,7 +58,16 @@ app.post '/vote', (req, res) ->
 	unless util.isInt(tastingNumber)
 		errors.tastingNumber = true
 	if _.isEmpty errors
-		res.redirect '/thanks'
+		queryOptions = {
+			text: "INSERT INTO votes (tasting_number, color) VALUES ($1, $2)"
+			values: [tastingNumber, color]
+		}
+		pgClient.query queryOptions, (error, result) ->
+			if error
+				console.log 'voting error'
+				console.log error
+			else
+				res.redirect '/thanks'
 	else
 		res.render 'vote',
 			tastingNumber: tastingNumber
@@ -128,3 +150,23 @@ app.get '/new', (req, res) ->
 	else
 		res.render 'new',
 			name: req.query.name
+
+app.post '/new', (req, res) ->
+	r = req.body
+	queryOptions = {
+		text: "INSERT INTO wines (person_name, name, winery, varietal, color, price, snooth_id, tasting_number)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
+		values: [r.personName, r.name, r.winery, r.varietal, r.color, r.price, r.snoothId, r.tastingNumber]
+	}
+	pgClient.query queryOptions, (error, result) ->
+		if error
+			console.log 'Insert error'
+			console.log error
+		else
+			res.redirect '/thanks'
+
+app.get '/results', (req, res) ->
+	console.log 'foo'
+	# query = pgClient.query("select * from information_schema.tables where table_name like '%diagnos%'")
+	# query.on 'end', (results) ->
+	# 	console.log results
